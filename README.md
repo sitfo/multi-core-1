@@ -1,1 +1,2 @@
-# multi-core-1
+# mutli_core1
+for assignment
