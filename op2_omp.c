@@ -15,7 +15,7 @@ void op2(float *a_vec, int m, int n, int p, float *b_vec, float *c_vec)
 			i=index/p;
 			j=index%p;
 			(*c+i*p)[j]=0;
-			for (k=0;k<p;k++){
+			for (k=0;k<n;k++){
 				(*c+i*p)[j]+=(*a+i*n)[k]*(*b+k*p)[j];
 			}
 		}
