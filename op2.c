@@ -6,7 +6,6 @@ void op2 ( float * a_vec , int m, int n , int p , float *b_vec ,float *c_vec) {
 		float (*b)[p] = ( float (*) [p] ) b_vec;
 		float (*c)[p] = ( float (*) [p] ) c_vec;
 		int i,j,k,s;
-		int index;
 		//matrix mutliple
 		double start=clock();
 		for(i=0;i<m;i++){

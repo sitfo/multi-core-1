@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define __USE_C99_MATH
-
 #include <stdbool.h>
 
 bool test_case1();
@@ -9,32 +8,48 @@ void op2(float*, int, int, int, float*, float*);
 
 int main() {
     bool tc1 = test_case1();
-
     printf("Test case 1: %s\n", tc1?"T":"F");
-
     return !tc1;
 }
 
 bool test_case1() {
-    int m = 3;
-    int n = 3;
-    int p = 3;
-
-    float a_def[9] = {1,2,3,    4,5,6,    7,8,9};
-    float b_def[9] = {2,3,4,   5,6,7,     8,9,10};
-    float c_expected[9] = {36,42,48,    81,96,111,    126,150,174};
-
-    float *a = malloc(sizeof(float) * m * n);
-    float *b = malloc(sizeof(float) * n * p);
-    float *c = malloc(sizeof(float) * m * p);
-
-    for(int i=0;i<(m*n); i++) {
-        a[i] = a_def[i];
+    FILE *fp;
+    fp = fopen("a.dat", "r");
+    int m, n;
+    fscanf(fp, "%d %d", &m, &n);
+    float *a = malloc(m*n*sizeof(float));
+    for(int i=0; i<m; i++) {
+        for(int j=0; j<n; j++) {
+            fscanf(fp, "%f", &a[i*n+j]);
+        }
     }
+    fclose(fp);
 
-    for(int i=0;i<(n*p); i++) {
-        b[i] = b_def[i];
+    fp = fopen("b.dat", "r");
+    int p;
+    fscanf(fp, "%d %d", &n, &p);
+    float *b = malloc(n*p*sizeof(float));
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<p; j++) {
+            fscanf(fp, "%f", &b[i*p+j]);
+        }
     }
+    fclose(fp);
+
+    //read c.dat and assign it to an array called c. The dimensions m x p of c are in the first line of c.dat
+    fp = fopen("c.dat", "r");
+    int m2, p2;
+    fscanf(fp, "%d %d", &m2, &p2);
+    float *c_expected = (float*)malloc(m2*p2*sizeof(float));
+    for(int i=0; i<m2; i++) {
+        for(int j=0; j<p2; j++) {
+            fscanf(fp, "%f", &c_expected[i*p2+j]);
+        }
+    }
+    fclose(fp);
+    //create an array called c to store the result of matrix multiplication
+    float *c = malloc(m*p*sizeof(float));
+
 
     for(int i=0;i<(m*p); i++) {
         c[i] = 0;
@@ -48,7 +63,7 @@ bool test_case1() {
         if(c[i]!=c_expected[i]) {
             match = false;
             printf("At position %d, expected %f but found %f. \n", i, c_expected[i], c[i]);
-            //break;
+            // break;
         }
     }
     free(a);
